@@ -1,13 +1,25 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useState, useEffect, useCallback, useContext} from 'react';
 import ArticleList from '../components/ArticleList';
 import SitesNavigationBar from '../components/SitesNavigationBar';
-import {RefreshControl} from 'react-native';
+import {RefreshControl, Text, Alert} from 'react-native';
+import {FavoritesContext} from '../context/FavoritesContext';
+import {useFocusEffect, useIsFocused} from '@react-navigation/core';
 
 export default function ArticlesListScreen({route, navigation}) {
   const [articles, setArticles] = useState([]);
   const [siteNumber, setSiteNumber] = useState(0);
   const [refreshing, setRefreshing] = useState(true);
   const perSite = 8;
+
+  const {favorites, setFavorites} = useContext(FavoritesContext);
+
+  const isFocused = useIsFocused();
+  // useFocusEffect(
+  //   useCallback(() => {
+  //     setFavorites(favorites);
+  //   }, [favorites]),
+  //   console.log('POWROT'),
+  // );
 
   function fetchArticles() {
     setTimeout(() => {
@@ -39,10 +51,11 @@ export default function ArticlesListScreen({route, navigation}) {
     setRefreshing(true);
     fetchArticles();
     setRefreshing(false);
-  }, []);
+  }, [articles]);
 
   return (
     <>
+      {/* <Text>{isFocused ? 'tak' : 'nie'}</Text> */}
       <ArticleList
         navigation={navigation}
         data={articles}

@@ -14,6 +14,7 @@ import {
   CardDetails,
   CardDetailsText,
 } from './styled';
+import FavoriteStar from './FavoriteStar';
 
 export default function ArticleCard(props) {
   const imageUri = props.article.imageUrl;
@@ -48,6 +49,7 @@ export default function ArticleCard(props) {
       }>
       <CardWrapper shadowColor={bgColor}>
         <CardImageBackground source={{uri: imageUri}}>
+          <FavoriteStar articleId={props.article.id} />
           <CardTitle>{props.article.title}</CardTitle>
         </CardImageBackground>
         <CardContentWrapper backgroundColor={bgColor}>

@@ -3,8 +3,8 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
 
 import colors from '../constants/colors';
-import ArticlesListScreen from '../screens/ArticlesListScreen';
 import ArticlesListStackNavigator from './ArticlesListStackNavigator';
+import FavoriteArticlesStackNavigator from './FavoriteArticlesStackNavigator';
 
 export default function MainTabNavigator(props) {
   const Tab = createBottomTabNavigator();
@@ -19,8 +19,17 @@ export default function MainTabNavigator(props) {
         <Tab.Screen
           name="ArticlesList"
           component={ArticlesListStackNavigator}
+          options={{
+            title: 'All articles',
+          }}
         />
-        <Tab.Screen name="Favorites" component={ArticlesListScreen} />
+        <Tab.Screen
+          name="Favorites"
+          component={FavoriteArticlesStackNavigator}
+          options={{
+            title: 'Favorites',
+          }}
+        />
       </Tab.Navigator>
     </NavigationContainer>
   );

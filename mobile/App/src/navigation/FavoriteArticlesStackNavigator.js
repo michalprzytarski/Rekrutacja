@@ -1,17 +1,17 @@
-import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import React from 'react';
+import {View, Text} from 'react-native';
 import ArticleScreen from '../screens/ArticleScreen';
-import ArticlesListScreen from '../screens/ArticlesListScreen';
+import FavoriteArticlesScreen from '../screens/FavoriteArticlesScreen';
 
-export default function ArticlesListStackNavigator() {
+export default function FavoriteArticlesStackNavigator() {
   const Stack = createNativeStackNavigator();
 
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="Articles"
-        component={ArticlesListScreen}
-        options={{headerShown: false}}
+        name="FavoriteArticles"
+        component={FavoriteArticlesScreen}
       />
       <Stack.Screen name="ArticleScreen" component={ArticleScreen} />
     </Stack.Navigator>

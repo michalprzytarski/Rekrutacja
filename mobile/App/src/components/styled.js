@@ -9,14 +9,15 @@ export const CardWrapper = styled.View`
   overflow: hidden;
   elevation: 16;
   shadow-color: ${props => props.shadowColor || '#000000'};
-  /* min-width: 50%; */
+  min-width: 200px;
+  /* min-height: 20%; */
   /* max-width: 100%; */
   aspect-ratio: 1;
 `;
 
 export const CardImageBackground = styled.ImageBackground`
   flex: 1;
-  justify-content: flex-end;
+  justify-content: space-between;
   /* min-height: 150px; */
 `;
 
@@ -79,7 +80,6 @@ export const ArticleTitle = styled.Text`
 
 export const AriticleImage = styled.Image`
   height: 300px;
-  resize-mode: cover;
 `;
 
 export const ArticleDate = styled.Text`

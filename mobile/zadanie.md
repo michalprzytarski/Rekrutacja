@@ -10,10 +10,10 @@ Do uzyskania danych skorzystaj z otwartego API: https://spaceflightnewsapi.net/ 
 
 **Funkcjonalności, które powinny być zawarte w twojej aplikacji:**
 
-1. Wyświetlenie listy artykułów (/articles)
-2. Możliwość odświeżenia listy artykułów
-3. Wyświetlenie szczegółowo pojedynczego artykułu (/articles/{id})
-4. Dodawanie artykułów do listy ulubionych
-5. Wyświetlenie listy ulubionych artykułów
+1. [x] Wyświetlenie listy artykułów (/articles)
+2. [x] Możliwość odświeżenia listy artykułów
+3. [x] Wyświetlenie szczegółowo pojedynczego artykułu (/articles/{id})
+4. [x] Dodawanie artykułów do listy ulubionych
+5. [x] Wyświetlenie listy ulubionych artykułów
 
 Dokumentacja API jest do Twojej dyspozycji, także nie wahaj się eksperymentować z rozwiązaniami!
