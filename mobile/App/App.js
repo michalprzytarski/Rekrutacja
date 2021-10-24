@@ -6,8 +6,8 @@ export default function App() {
   //const isDarkMode = useColorScheme() === 'dark';
 
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: '#36393f'}}>
-      <StatusBar barStyle={'light-content'} />
+    <SafeAreaView style={{flex: 1}}>
+      <StatusBar barStyle={'light-content'} hidden />
       <MainTabNavigator />
     </SafeAreaView>
   );

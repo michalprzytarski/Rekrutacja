@@ -7,8 +7,12 @@ export default function ArticlesListStackNavigator() {
   let Stack = createNativeStackNavigator();
 
   return (
-    <Stack.Navigator screenOptions={{headerShown: false}}>
-      <Stack.Screen name="Articles" component={ArticlesListScreen} />
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Articles"
+        component={ArticlesListScreen}
+        options={{headerShown: false}}
+      />
       <Stack.Screen name="ArticleScreen" component={ArticleScreen} />
     </Stack.Navigator>
   );

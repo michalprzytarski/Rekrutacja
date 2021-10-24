@@ -1,5 +1,7 @@
+import dateFormat from 'dateformat';
 import React, {useState, useEffect} from 'react';
 import ImageColors from 'react-native-image-colors';
+import {TouchableOpacity, Pressable} from 'react-native';
 
 import {
   CardWrapper,
@@ -15,13 +17,9 @@ import {
 
 export default function ArticleCard(props) {
   const imageUri = props.article.imageUrl;
-  //   const imageColors = await ImageColors.getColors(imageUri, {
-  //     fallback: '#646464',
-  //     cashe: true,
-  //     key: 'unique_key',
-  //   });
+  const date = new Date(props.article.publishedAt);
 
-  const [bgColor, setBgColor] = useState('#646464');
+  const [bgColor, setBgColor] = useState(null);
 
   useEffect(() => {
     setTimeout(() => {
@@ -37,22 +35,38 @@ export default function ArticleCard(props) {
           Alert.alert('ERROR', err.message);
           console.log(err.message);
         });
-    }, 1000);
+    }, 100);
   }, []);
 
   return (
-    <CardWrapper shadowColor={bgColor}>
-      <CardImageBackground source={{uri: imageUri}}>
-        <CardTitle>{props.article.title}</CardTitle>
-      </CardImageBackground>
-      <CardContentWrapper backgroundColor={bgColor}>
-        <CardText>{props.article.summary}</CardText>
-        <Separator />
-        <CardDetails>
-          <CardDetailsText>{props.article.newsSite}</CardDetailsText>
-          <CardDetailsText>{props.article.publishedAt}</CardDetailsText>
-        </CardDetails>
-      </CardContentWrapper>
-    </CardWrapper>
+    <Pressable
+      onPress={() =>
+        props.navigation.push('ArticleScreen', {
+          articleId: props.article.id,
+          articleColor: bgColor,
+        })
+      }>
+      <CardWrapper shadowColor={bgColor}>
+        <CardImageBackground source={{uri: imageUri}}>
+          <CardTitle>{props.article.title}</CardTitle>
+        </CardImageBackground>
+        <CardContentWrapper backgroundColor={bgColor}>
+          {props.summary && (
+            <>
+              <CardText>{props.article.summary}</CardText>
+              <Separator />
+            </>
+          )}
+          <CardDetails>
+            {props.summary && (
+              <CardDetailsText>{props.article.newsSite}</CardDetailsText>
+            )}
+            <CardDetailsText>
+              {dateFormat(date, 'DDDD, dd mmmm yyyy, H:MM')}
+            </CardDetailsText>
+          </CardDetails>
+        </CardContentWrapper>
+      </CardWrapper>
+    </Pressable>
   );
 }
