@@ -20,6 +20,7 @@ import {
 } from '../components/styled';
 import dateFormat from 'dateformat';
 import ArticleList from '../components/ArticleList';
+import FavoriteStar from '../components/FavoriteStar';
 
 export default function ArticleScreen({route, navigation}) {
   const {articleId, articleColor} = route.params;
@@ -27,10 +28,6 @@ export default function ArticleScreen({route, navigation}) {
   const [article, setArticle] = useState(null);
   const [launches, setLaunches] = useState(null);
   const [date, setDate] = useState(null);
-
-  // useLayoutEffect(() => {
-  //   navigation.setOptions({statusBarBackgroundColor: articleColor});
-  // }, []);
 
   useEffect(() => {
     navigation.setOptions({
@@ -42,44 +39,40 @@ export default function ArticleScreen({route, navigation}) {
   }, []);
 
   function fetchArticle() {
-    setTimeout(() => {
-      fetch(`https://api.spaceflightnewsapi.net/v3/articles/${articleId}`)
+    fetch(`https://api.spaceflightnewsapi.net/v3/articles/${articleId}`)
+      .then(res => {
+        if (!res.ok) throw Error(`Couldn't fetch data from that source!`);
+        return res.json();
+      })
+      .then(data => {
+        setArticle(data);
+        setDate(new Date(data.publishedAt));
+        navigation.setOptions({
+          headerRight: () => <FavoriteStar articleId={data.id} />,
+        });
+        return data.launches;
+      })
+      .then(launches => fetchLaunches(launches))
+      .catch(err => {
+        Alert.alert('ERROR', err.message);
+        console.error(err.message);
+      });
+  }
+
+  function fetchLaunches(launches) {
+    launches.map(launch =>
+      fetch(
+        `https://api.spaceflightnewsapi.net/v3/articles/launch/${launch.id}`,
+      )
         .then(res => {
           if (!res.ok) throw Error(`Couldn't fetch data from that source!`);
           return res.json();
         })
-        .then(data => {
-          setArticle(data);
-          setDate(new Date(data.publishedAt));
-          console.log(data.launches.length, data.launches);
-          if (data.launches.length > 0) fetchLaunches(data.launches);
-        })
+        .then(data => setLaunches(data))
         .catch(err => {
           Alert.alert('ERROR', err.message);
-          console.log(err.message);
-        });
-    }, 1000);
-  }
-
-  function fetchLaunches(data) {
-    data.map(launch =>
-      setTimeout(() => {
-        fetch(
-          `https://api.spaceflightnewsapi.net/v3/articles/launch/${launch.id}`,
-        )
-          .then(res => {
-            if (!res.ok) throw Error(`Couldn't fetch data from that source!`);
-            return res.json();
-          })
-          .then(data => {
-            setLaunches(data);
-            console.log(data);
-          })
-          .catch(err => {
-            Alert.alert('ERROR', err.message);
-            console.log(err.message);
-          });
-      }, 1000),
+          console.error(err.message);
+        }),
     );
   }
 
@@ -89,7 +82,7 @@ export default function ArticleScreen({route, navigation}) {
         Linking.openURL(article.url);
       } else {
         Alert.alert('ERROR', "Don't know how to open URI: " + article.url);
-        console.log("Don't know how to open URI: " + article.url);
+        console.error("Don't know how to open URI: " + article.url);
       }
     });
   }

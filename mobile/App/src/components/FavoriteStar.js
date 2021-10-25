@@ -1,6 +1,7 @@
 import React, {useState, useContext, useEffect} from 'react';
-import {View, Text, Pressable} from 'react-native';
+import {Pressable} from 'react-native';
 import {FavoritesContext} from '../context/FavoritesContext';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 export default function FavoriteStar(props) {
   const {favorites, setFavorites} = useContext(FavoritesContext);
@@ -21,8 +22,19 @@ export default function FavoriteStar(props) {
   }, [favorites]);
 
   return (
-    <Pressable onPress={handlePress}>
-      <Text style={{backgroundColor: checked ? 'green' : 'red'}}>STAR</Text>
+    <Pressable
+      onPress={handlePress}
+      style={{marginTop: props.margin, marginRight: props.margin}}>
+      <Icon
+        name="grade"
+        size={30}
+        color={checked ? 'gold' : 'grey'}
+        style={{
+          textShadowOffset: {width: 0, height: 0},
+          textShadowRadius: 2,
+          textShadowColor: checked ? 'white' : 'black',
+        }}
+      />
     </Pressable>
   );
 }

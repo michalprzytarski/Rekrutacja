@@ -1,7 +1,7 @@
 import dateFormat from 'dateformat';
 import React, {useState, useEffect} from 'react';
 import ImageColors from 'react-native-image-colors';
-import {TouchableOpacity, Pressable} from 'react-native';
+import {TouchableOpacity, Pressable, View} from 'react-native';
 
 import {
   CardWrapper,
@@ -20,23 +20,21 @@ export default function ArticleCard(props) {
   const imageUri = props.article.imageUrl;
   const date = new Date(props.article.publishedAt);
 
-  const [bgColor, setBgColor] = useState(null);
+  const [bgColor, setBgColor] = useState('black');
 
   useEffect(() => {
-    setTimeout(() => {
-      ImageColors.getColors(imageUri, {
-        fallback: '#646464',
-        cashe: true,
-        key: 'unique_key',
+    ImageColors.getColors(imageUri, {
+      fallback: '#646464',
+      cashe: true,
+      key: 'unique_key',
+    })
+      .then(data => {
+        setBgColor(data.vibrant);
       })
-        .then(data => {
-          setBgColor(data.vibrant);
-        })
-        .catch(err => {
-          Alert.alert('ERROR', err.message);
-          console.log(err.message);
-        });
-    }, 100);
+      .catch(err => {
+        Alert.alert('ERROR', err.message);
+        console.log(err.message);
+      });
   }, []);
 
   return (
@@ -49,7 +47,9 @@ export default function ArticleCard(props) {
       }>
       <CardWrapper shadowColor={bgColor}>
         <CardImageBackground source={{uri: imageUri}}>
-          <FavoriteStar articleId={props.article.id} />
+          <View style={{alignItems: 'flex-end'}}>
+            <FavoriteStar articleId={props.article.id} margin={15} />
+          </View>
           <CardTitle>{props.article.title}</CardTitle>
         </CardImageBackground>
         <CardContentWrapper backgroundColor={bgColor}>
