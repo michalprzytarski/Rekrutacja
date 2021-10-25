@@ -12,8 +12,13 @@ export default function FavoriteArticlesStackNavigator() {
       <Stack.Screen
         name="FavoriteArticles"
         component={FavoriteArticlesScreen}
+        options={{headerShown: false}}
       />
-      <Stack.Screen name="ArticleScreen" component={ArticleScreen} />
+      <Stack.Screen
+        name="ArticleScreen"
+        component={ArticleScreen}
+        options={{title: ''}}
+      />
     </Stack.Navigator>
   );
 }

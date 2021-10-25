@@ -1,14 +1,5 @@
-import React, {useState, useEffect, useLayoutEffect} from 'react';
-import {
-  View,
-  Text,
-  Pressable,
-  Alert,
-  Linking,
-  Image,
-  ScrollView,
-  Dimensions,
-} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {Alert, Linking, ScrollView} from 'react-native';
 import {
   AriticleImage,
   ArticleDate,
@@ -30,13 +21,17 @@ export default function ArticleScreen({route, navigation}) {
   const [date, setDate] = useState(null);
 
   useEffect(() => {
+    setHeaderStyle();
+    fetchArticle();
+  }, []);
+
+  function setHeaderStyle() {
     navigation.setOptions({
       headerStyle: {backgroundColor: articleColor},
       headerTitleStyle: {color: 'white'},
       headerTintColor: 'white',
     });
-    fetchArticle();
-  }, []);
+  }
 
   function fetchArticle() {
     fetch(`https://api.spaceflightnewsapi.net/v3/articles/${articleId}`)
@@ -89,31 +84,29 @@ export default function ArticleScreen({route, navigation}) {
 
   return (
     article && (
-      <>
-        <ScrollView>
-          <AriticleImage source={{uri: article.imageUrl}} />
-          <ArticleDate>{dateFormat(date, 'dd mmmm yyyy, H:MM')}</ArticleDate>
-          <ArticleTitle color={articleColor}>{article.title}</ArticleTitle>
-          <Separator color={articleColor} />
-          <ArticleText>{article.summary}</ArticleText>
-          <ArticleText color={articleColor}>
-            Article from : {article.newsSite}
-          </ArticleText>
-          <MyButton onPress={handleOpenInBrowser} color={articleColor}>
-            <MyButtonText>Read whole article in the browser</MyButtonText>
-          </MyButton>
-          {launches && (
-            <>
-              <ArticleText>More launch related articles:</ArticleText>
-              <ArticleList
-                data={launches.slice(0, 4)}
-                navigation={navigation}
-                horizontal={true}
-              />
-            </>
-          )}
-        </ScrollView>
-      </>
+      <ScrollView>
+        <AriticleImage source={{uri: article.imageUrl}} />
+        <ArticleDate>{dateFormat(date, 'dd mmmm yyyy, H:MM')}</ArticleDate>
+        <ArticleTitle color={articleColor}>{article.title}</ArticleTitle>
+        <Separator color={articleColor} />
+        <ArticleText>{article.summary}</ArticleText>
+        <ArticleText color={articleColor}>
+          Article from : {article.newsSite}
+        </ArticleText>
+        <MyButton onPress={handleOpenInBrowser} color={articleColor}>
+          <MyButtonText>Read whole article in the browser</MyButtonText>
+        </MyButton>
+        {launches && (
+          <>
+            <ArticleText>More launch related articles:</ArticleText>
+            <ArticleList
+              data={launches.slice(0, 8)}
+              navigation={navigation}
+              horizontal={true}
+            />
+          </>
+        )}
+      </ScrollView>
     )
   );
 }

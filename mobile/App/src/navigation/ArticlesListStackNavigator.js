@@ -13,7 +13,11 @@ export default function ArticlesListStackNavigator() {
         component={ArticlesListScreen}
         options={{headerShown: false}}
       />
-      <Stack.Screen name="ArticleScreen" component={ArticleScreen} />
+      <Stack.Screen
+        name="ArticleScreen"
+        component={ArticleScreen}
+        options={{title: ''}}
+      />
     </Stack.Navigator>
   );
 }

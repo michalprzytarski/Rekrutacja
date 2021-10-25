@@ -1,7 +1,8 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {View, Text, Alert} from 'react-native';
+import {Alert} from 'react-native';
 import ArticleList from '../components/ArticleList';
 import {FavoritesContext} from '../context/FavoritesContext';
+import TextInfoScreen from './TextInfoScreen';
 
 export default function FavoriteArticlesScreen({navigation}) {
   const {favorites, setFavorites} = useContext(FavoritesContext);
@@ -15,17 +16,13 @@ export default function FavoriteArticlesScreen({navigation}) {
             if (!res.ok) throw Error(`Couldn't fetch data from that source!`);
             return res;
           })
-          .then(data => {
-            return data.json();
-          })
+          .then(data => data.json())
           .catch(err => {
             Alert.alert('ERROR', err.message);
             console.error(err.message);
           }),
       ),
-    ).then(data => {
-      setArticles(data);
-    });
+    ).then(data => setArticles(data));
   }
 
   useEffect(() => {
@@ -33,11 +30,13 @@ export default function FavoriteArticlesScreen({navigation}) {
   }, [favorites]);
 
   return (
-    <View>
-      <ArticleList navigation={navigation} data={articles} summary={true} />
+    <>
       {favorites.length === 0 && (
-        <Text>Najpierw dodaj artykuły do ulubionych</Text>
+        <TextInfoScreen text="You need to add something here..." />
       )}
-    </View>
+      {favorites.length !== 0 && (
+        <ArticleList navigation={navigation} data={articles} summary={true} />
+      )}
+    </>
   );
 }
