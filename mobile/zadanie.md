@@ -17,3 +17,9 @@ Do uzyskania danych skorzystaj z otwartego API: https://spaceflightnewsapi.net/ 
 5. [x] Wyświetlenie listy ulubionych artykułów
 
 Dokumentacja API jest do Twojej dyspozycji, także nie wahaj się eksperymentować z rozwiązaniami!
+
+## To do
+
+1. [x] Przechowywanie ulubionych lokalnie
+2. [ ] Wystylizowanie dolnego paska nawigacji
+3. [ ] Wystylizowanie ekranu ulubionych artykułów

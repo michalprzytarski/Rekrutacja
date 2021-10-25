@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {View, Text, FlatList, Button, Alert} from 'react-native';
+import {View, Text, Alert} from 'react-native';
 import ArticleList from '../components/ArticleList';
 import {FavoritesContext} from '../context/FavoritesContext';
 
@@ -9,8 +9,8 @@ export default function FavoriteArticlesScreen({navigation}) {
 
   function updateArticles() {
     Promise.all(
-      favorites.map(id =>
-        fetch(`https://api.spaceflightnewsapi.net/v3/articles/${id}`)
+      favorites.map(favorite =>
+        fetch(`https://api.spaceflightnewsapi.net/v3/articles/${favorite.id}`)
           .then(res => {
             if (!res.ok) throw Error(`Couldn't fetch data from that source!`);
             return res;
@@ -28,7 +28,6 @@ export default function FavoriteArticlesScreen({navigation}) {
     });
   }
 
-  // Update article list
   useEffect(() => {
     updateArticles();
   }, [favorites]);
